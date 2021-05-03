@@ -34,11 +34,16 @@
     </div>
 </div>
 <div class="d-flex flex-wrap justify-content-around align-items-center mx-auto" style="margin-top:30px;width:65%;"> 
+
     <div class="card" style="width:100%;">
         <div class="card-body">
             <h3 class="card-title">Avis</h5>
             <button type="button" class="btn btn-outline-success float-right">Success</button>
         </div> 
     </div>
+    {!!Form::open(['action' => ['BoxController@destroy', $posts->id], 'method' => 'DELETE', 'class' => 'pull-right'])!!}
+                {{Form::hidden('_method', 'DELETE')}}
+                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+            {!!Form::close()!!}
 </div>
 @endsection 

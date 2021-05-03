@@ -18,6 +18,7 @@ class NoteController extends Controller
         return Note::findOrFail($id);
     }
     
+    #Créer un commentaire dans la bdd
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -39,7 +40,7 @@ class NoteController extends Controller
         }
     }
 
-
+    #Modifier un commentaire dans la bdd
     public function update(Request $request, $id)
     {
         $note = Note::findOrFail($id);
@@ -56,6 +57,7 @@ class NoteController extends Controller
         }
     }
 
+    #Supprime un commentaire dans la bdd
     public function delete(Request $request, $id)
     {
         $note = Note::findOrFail($id);

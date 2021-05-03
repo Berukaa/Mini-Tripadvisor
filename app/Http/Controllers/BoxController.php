@@ -9,18 +9,13 @@ use App\Models\Box;
 
 class BoxController extends Controller
 {
-
-    public function index()
-    {
-        $posts = Box::get();
-        return view('posts.index', compact('posts'));
-    }
-
     private $boxes;
     public function __construct()
     {
         $this->boxes = new Box();
     }
+
+    #Afficher la fiche d'un établissement
     public function fiche($box_id)
     {
         $boxes = $this->boxes->select('name', 'address', 'city', 'postal', 'country')
@@ -29,60 +24,67 @@ class BoxController extends Controller
         return view('posts.fiche')->with('posts', $boxes);
     }
 
+    public function __constructPost()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
+    #Afficher la liste des établissements dans l'ordre de création
     public function indexPost()
     {
-        //$posts = Post::all();
-        //return Post::where('title', 'Post Two')->get();
-        //$posts = DB::select('SELECT * FROM posts');
-        //$posts = Post::orderBy('title','desc')->take(1)->get();
-        //$posts = Post::orderBy('title','desc')->get();
 
         $posts = Box::orderBy('created_at','desc')->paginate(10);
         return view('posts.index')->with('posts', $posts);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    #Afficher la page pour créer un établissement
     public function createPost()
     {
         return view('posts.create');
 
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+    #Créer un établissement et stocker ses valeurs dans la bdd
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
             'address' => 'required',
+            'city' => 'required',
+            'postal' => 'required',
+            'country' => 'required',
         ]);
 
-        // Create Post
         $post = new Box;
-        $post->title = $request->input('name');
-        $post->body = $request->input('address');
-        $post->user_id = auth()->user()->id;
-
+        $post->name = $request->input('name');
+        $post->address = $request->input('address');
+        $post->city = $request->input('city');
+        $post->postal = $request->input('postal');
+        $post->country = $request->input('country');
         $post->save();
 
         return redirect('/')->with('success', 'Post Created');
     }
 
+    #Supprimer un établissement
+    public function destroy($id)
+    {
+        $post = Box::find($id);
+        $post->delete();
+        return redirect('/')->with('success', 'Post Removed');
+    }
+
+    #Récupérer tous les établissements depuis la bdd
     function getAll() {
         return Box::all();
     }
 
+    #Récupérer un établissement avec son ID
     function getByID($id) {
         return Box::findOrFail($id);
     }   
     
+    #Créer un établissement dans la bdd
     function create(Request $request) {
         $validator = Validator::make($request->all(), [ 
             'name' => 'required',
@@ -105,7 +107,7 @@ class BoxController extends Controller
             }
     }
 
-
+    #Modifier un établissement dans la bdd
     function update(Request $request, $id) {
         $box = Box::findOrFail($id);
 
@@ -121,6 +123,7 @@ class BoxController extends Controller
         }
     }
 
+    #Supprimer un établissement dans la bdd
     function delete(Request $request, $id) {
         $box = Box::findOrFail($id);
 

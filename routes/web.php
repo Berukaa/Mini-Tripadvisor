@@ -1,4 +1,5 @@
 <?php
+namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BoxController;
@@ -14,11 +15,19 @@ use App\Http\Controllers\BoxController;
 |
 */
 
+#Route pour afficher la liste des établissements sur la page d'accueil
+Route::get('/', [BoxController::class, 'indexPost']);
 
-Route::get('/', [BoxController::class, 'index']);
+#Route pour la page de création d'un établisesement
+Route::get('/posts/create', [BoxController::class, 'createPost']);
 
+#Route pour afficher le nouvel établissement créé
 Route::post('/posts/create', [BoxController::class, 'store']);
 
+#Route pour supprimer un établissement
+Route::delete('/', [BoxController::class, 'destroy']);
+
+#Route pour afficher la fiche d'un établissement
 Route::get('/fiche/{box_id}', [BoxController::class, 'fiche']);
 
 

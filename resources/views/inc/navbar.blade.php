@@ -25,6 +25,7 @@
         </div>
       </li>
     </ul>
+    <a class="text-success" href="/posts/create" style="padding:10px;">Nouveau</a>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Nom de l'établissement..." aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">OK</button>

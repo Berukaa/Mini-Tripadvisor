@@ -1,10 +1,7 @@
 @extends('layouts.home')
 
 @section('content')
-<a href="/posts/create">Voir</a>
         <div class="card-deck">
-        
-        
             <div class="d-flex justify-content-around mx-auto" style="width:70%;margin-top:50px;margin-bottom:350px">
             @foreach ($posts as $post)
             <div class="card">
@@ -20,12 +17,7 @@
                 <div class="card-footer">{{ $post->author }}</div>     
             </div>
             @endforeach
-            
             </div>
-            
             </div>
-        </div>
-                
-    </body>
-</html>
+        </div>       
 @endsection
